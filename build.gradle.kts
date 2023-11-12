@@ -1,5 +1,6 @@
 plugins {
     id("java")
+    id("io.freefair.lombok") version "8.4"
 }
 
 group = "org.example"
@@ -10,6 +11,8 @@ repositories {
 }
 
 dependencies {
+    compileOnly("org.projectlombok:lombok:1.18.30")
+    annotationProcessor("org.projectlombok:lombok:1.18.30")
     implementation("org.hibernate.orm:hibernate-core:6.3.1.Final")
     implementation("org.mariadb.jdbc:mariadb-java-client:3.3.0")
 
