@@ -4,13 +4,16 @@ import java.util.HashMap;
 
 import org.hibernate.jpa.HibernatePersistenceProvider;
 
+import com.tutorial.entities.Employee;
 import com.tutorial.entities.Product;
 import com.tutorial.persistence.CustomPersistenceUnitInfo;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class Main {
 
     public static void main(String[] args) {
@@ -21,10 +24,13 @@ public class Main {
         try {
             em.getTransaction().begin();
 
-            Product product = new Product();
-            product.setName("Milk");
+            Employee employee2 = new Employee();
+            employee2.setId(5L);
+            employee2.setName("Some5");
+            employee2.setAddress("Another5");
 
-            em.persist(product); // add this to the context -> NOT AN INSERT QUERY
+            em.merge(employee2);
+
 
             em.getTransaction().commit();
         } finally {

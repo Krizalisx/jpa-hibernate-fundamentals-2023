@@ -64,7 +64,8 @@ public class CustomPersistenceUnitInfo implements PersistenceUnitInfo {
 
     @Override
     public List<String> getManagedClassNames() {
-        return List.of("com.tutorial.entities.Product");
+        return List.of("com.tutorial.entities.Product",
+            "com.tutorial.entities.Employee");
     }
 
     @Override
@@ -84,7 +85,11 @@ public class CustomPersistenceUnitInfo implements PersistenceUnitInfo {
 
     @Override
     public Properties getProperties() {
-        return null;
+        Properties properties = new Properties();
+        properties.put("hibernate.show_sql", true);
+        properties.put("hibernate.format_sql", true);
+
+        return properties;
     }
 
     @Override
