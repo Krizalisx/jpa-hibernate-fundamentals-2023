@@ -1,40 +1,41 @@
 package com.tutorial;
 
-import java.util.HashMap;
+import java.util.Map;
 
 import org.hibernate.jpa.HibernatePersistenceProvider;
 
 import com.tutorial.entities.Employee;
-import com.tutorial.entities.Product;
 import com.tutorial.persistence.CustomPersistenceUnitInfo;
 
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class Main {
 
+    private static EntityManager em = new HibernatePersistenceProvider()
+        .createContainerEntityManagerFactory(new CustomPersistenceUnitInfo(), Map.of(
+            "hibernate.hbm2ddl.auto", "update"
+        ))
+        .createEntityManager();
+
     public static void main(String[] args) {
-//        EntityManagerFactory emf = Persistence.createEntityManagerFactory("my-persistence-unit");
-        EntityManagerFactory emf = new HibernatePersistenceProvider().createContainerEntityManagerFactory(new CustomPersistenceUnitInfo(), new HashMap());
-        EntityManager em = emf.createEntityManager(); // represents the context
-
         try {
-            em.getTransaction().begin();
+            inTransaction(() -> {
+                Employee employee = new Employee();
+                employee.setName("Viktor");
+                employee.setAddress("Amsterdam");
 
-            Employee employee2 = new Employee();
-            employee2.setId(5L);
-            employee2.setName("Some5");
-            employee2.setAddress("Another5");
-
-            em.merge(employee2);
-
-
-            em.getTransaction().commit();
+                em.persist(employee);
+            });
         } finally {
             em.close();
         }
+    }
+
+    private static void inTransaction(Runnable action) {
+        em.getTransaction().begin();
+        action.run();
+        em.getTransaction().commit();
     }
 }

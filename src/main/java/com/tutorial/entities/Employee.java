@@ -2,11 +2,14 @@ package com.tutorial.entities;
 
 import java.util.Objects;
 
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.proxy.HibernateProxy;
 
+import com.tutorial.generators.UUIDGenerator;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Getter;
@@ -21,8 +24,10 @@ import lombok.ToString;
 public class Employee {
 
     @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(generator = "UUIDGenerator")
+    @GenericGenerator(name = "UUIDGenerator", type = UUIDGenerator.class)
+    @Column(length = 500)
+    private String id;
 
     private String name;
 
