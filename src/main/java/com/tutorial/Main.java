@@ -4,7 +4,9 @@ import java.util.Map;
 
 import org.hibernate.jpa.HibernatePersistenceProvider;
 
-import com.tutorial.entities.Employee;
+import com.tutorial.entities.Product;
+import com.tutorial.entities.Student;
+import com.tutorial.entities.keys.StudentKey;
 import com.tutorial.persistence.CustomPersistenceUnitInfo;
 
 import jakarta.persistence.EntityManager;
@@ -22,11 +24,22 @@ public class Main {
     public static void main(String[] args) {
         try {
             inTransaction(() -> {
-                Employee employee = new Employee();
-                employee.setName("Viktor");
-                employee.setAddress("Amsterdam");
+                Product product = new Product();
+                product.setCode("ABC");
+                product.setNumber(10L);
+                product.setColor("Red");
 
-                em.persist(employee);
+                em.persist(product);
+
+                StudentKey studentKey = new StudentKey();
+                studentKey.setCode("ABC");
+                studentKey.setNumber(10L);
+
+                Student student = new Student();
+                student.setId(studentKey);
+                student.setName("John");
+
+                em.persist(student);
             });
         } finally {
             em.close();
