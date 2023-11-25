@@ -67,7 +67,9 @@ public class CustomPersistenceUnitInfo implements PersistenceUnitInfo {
         return List.of(
             "com.tutorial.entities.Product",
             "com.tutorial.entities.Employee",
-            "com.tutorial.entities.Student");
+            "com.tutorial.entities.Student",
+            "com.tutorial.entities.Passport",
+            "com.tutorial.entities.Person");
     }
 
     @Override
