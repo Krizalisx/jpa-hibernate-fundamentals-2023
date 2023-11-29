@@ -1,11 +1,14 @@
 package com.tutorial;
 
+import java.util.List;
 import java.util.Map;
 
 import org.hibernate.jpa.HibernatePersistenceProvider;
 
+import com.tutorial.entities.Group;
 import com.tutorial.entities.Passport;
 import com.tutorial.entities.Person;
+import com.tutorial.entities.User;
 import com.tutorial.persistence.CustomPersistenceUnitInfo;
 
 import jakarta.persistence.EntityManager;
@@ -23,17 +26,28 @@ public class Main {
     public static void main(String[] args) {
         try {
             inTransaction(() -> {
-                Person person = new Person();
-                person.setName("Laur");
+                User user1 = new User();
+                user1.setName("User 1");
 
-                Passport passport = new Passport();
-                passport.setNumber("abc123");
-                passport.setPerson(person);
+                User user2 = new User();
+                user2.setName("User 2");
 
-                person.setPassport(passport);
+                Group g1 = new Group();
+                g1.setGroupName("Group 1");
 
-                em.persist(person);
+                Group g2 = new Group();
+                g2.setGroupName("Group 2");
 
+                g1.setUsers(List.of(user1, user2));
+                g2.setUsers(List.of(user2));
+
+                user1.setGroups(List.of(g1));
+                user2.setGroups(List.of(g1, g2));
+
+                em.persist(user1);
+                em.persist(user2);
+                em.persist(g1);
+                em.persist(g2);
             });
         } finally {
             em.close();

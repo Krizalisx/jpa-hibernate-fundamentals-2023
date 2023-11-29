@@ -69,7 +69,9 @@ public class CustomPersistenceUnitInfo implements PersistenceUnitInfo {
             "com.tutorial.entities.Employee",
             "com.tutorial.entities.Student",
             "com.tutorial.entities.Passport",
-            "com.tutorial.entities.Person");
+            "com.tutorial.entities.Person",
+            "com.tutorial.entities.User",
+            "com.tutorial.entities.Group");
     }
 
     @Override
