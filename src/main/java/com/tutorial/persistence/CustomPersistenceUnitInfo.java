@@ -40,7 +40,7 @@ public class CustomPersistenceUnitInfo implements PersistenceUnitInfo {
     public DataSource getNonJtaDataSource() {
         HikariDataSource dataSource = new HikariDataSource();
 
-        dataSource.setJdbcUrl("jdbc:mariadb://localhost:3306/demo");
+        dataSource.setJdbcUrl("jdbc:mariadb://localhost:3306/spring-jpa-fundamentals");
         dataSource.setUsername("root");
         dataSource.setPassword("root");
 
@@ -74,7 +74,8 @@ public class CustomPersistenceUnitInfo implements PersistenceUnitInfo {
             "com.tutorial.entities.Group",
             "com.tutorial.entities.inheritance.Book",
             "com.tutorial.entities.inheritance.Item",
-            "com.tutorial.entities.inheritance.ElectronicDevice");
+            "com.tutorial.entities.inheritance.ElectronicDevice",
+            "com.tutorial.entities.jpql.Instrument");
     }
 
     @Override
