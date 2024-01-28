@@ -1,7 +1,6 @@
 package com.tutorial;
 
-import com.tutorial.entities.jpql.Instrument;
-import com.tutorial.entities.jpql.joins_and_inner_queries.dto.EnrolledStudent;
+import com.tutorial.entities.jpql.joins_and_inner_queries.Participant;
 import com.tutorial.persistence.CustomPersistenceUnitInfo;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
@@ -19,22 +18,16 @@ public class Main {
     public static void main(String[] args) {
         try {
             inTransaction(() -> {
-                // simple query
-                String simpleQuery = """
-                    select lhs from Instrument lhs
-                    left join Instrument rhs on lhs.id <= rhs.id
-                    """;
-                TypedQuery<Instrument> query = em.createQuery(simpleQuery, Instrument.class);
-                System.out.println(query.getResultList());
+                // named get all query
+                TypedQuery<Participant> getAll = em.createNamedQuery("getAll", Participant.class);
+                getAll.getResultList().forEach(System.out::println);
 
-                // jpql join with projection
-                String jpql2 = """
-                    select new com.tutorial.entities.jpql.joins_and_inner_queries.dto.EnrolledStudent(p, e) from Participant p inner join p.enrollments e
-                    """;
-                TypedQuery<EnrolledStudent> query2 = em.createQuery(jpql2, EnrolledStudent.class);
-                query2.getResultList().forEach(enrolledStudent -> {
-                    System.out.println(enrolledStudent.participant() + " " + enrolledStudent.enrollment());
-                });
+                System.out.println();
+
+                // named get by name query
+                TypedQuery<Participant> getByName = em.createNamedQuery("getByName", Participant.class);
+                getByName.setParameter("name", "Alice");
+                getByName.getResultList().forEach(System.out::println);
 
             });
         } finally {

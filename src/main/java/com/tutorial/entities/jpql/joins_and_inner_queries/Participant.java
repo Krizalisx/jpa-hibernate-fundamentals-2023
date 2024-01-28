@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.List;
@@ -24,6 +25,8 @@ import lombok.ToString.Exclude;
 @Setter
 @Builder
 @ToString
+@NamedQuery(name = "getAll", query = "select p from Participant p")
+@NamedQuery(name = "getByName", query = "select p from Participant p where p.name = :name")
 public class Participant {
 
     @Id
