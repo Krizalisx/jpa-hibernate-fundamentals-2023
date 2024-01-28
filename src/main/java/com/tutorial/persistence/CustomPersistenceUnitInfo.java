@@ -75,7 +75,10 @@ public class CustomPersistenceUnitInfo implements PersistenceUnitInfo {
             "com.tutorial.entities.inheritance.Book",
             "com.tutorial.entities.inheritance.Item",
             "com.tutorial.entities.inheritance.ElectronicDevice",
-            "com.tutorial.entities.jpql.Instrument");
+            "com.tutorial.entities.jpql.Instrument",
+            "com.tutorial.entities.jpql.joins_and_inner_queries.Participant",
+            "com.tutorial.entities.jpql.joins_and_inner_queries.Course",
+            "com.tutorial.entities.jpql.joins_and_inner_queries.Enrollment");
     }
 
     @Override
@@ -97,7 +100,7 @@ public class CustomPersistenceUnitInfo implements PersistenceUnitInfo {
     public Properties getProperties() {
         Properties properties = new Properties();
         properties.put("hibernate.show_sql", true);
-        properties.put("hibernate.format_sql", true);
+        properties.put("hibernate.format_sql", false);
 
         return properties;
     }
