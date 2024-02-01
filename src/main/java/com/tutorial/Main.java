@@ -1,11 +1,14 @@
 package com.tutorial;
 
+import com.tutorial.entities.jpql.joins_and_inner_queries.Enrollment;
 import com.tutorial.entities.jpql.joins_and_inner_queries.Participant;
 import com.tutorial.persistence.CustomPersistenceUnitInfo;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.Tuple;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Root;
 import java.util.Arrays;
@@ -32,11 +35,15 @@ public class Main {
                 CriteriaQuery<Participant> cq = query.select(participantRoot);
                 em.createQuery(cq).getResultList().forEach(System.out::println);
 
+                System.out.println();
+
                 // select p.name from Participant p
                 CriteriaQuery<String> query1 = builder.createQuery(String.class);
                 Root<Participant> stringRoot1 = query1.from(Participant.class);
                 CriteriaQuery<String> cq1 = query1.select(stringRoot1.get("name"));
                 em.createQuery(cq1).getResultList().forEach(System.out::println);
+
+                System.out.println();
 
                 // select p.name, p.id from Participant p
                 CriteriaQuery<Object[]> query2 = builder.createQuery(Object[].class);
@@ -47,7 +54,14 @@ public class Main {
                     .having(builder.gt(builder.count(stringRoot2.get("id")), 1));
                 em.createQuery(cq2).getResultList().stream().map(Arrays::toString).forEach(System.out::println);
 
+                System.out.println();
 
+                // select p from Participant p join p.enrollments e
+                CriteriaQuery<Tuple> tupleQuery = builder.createTupleQuery();
+                Root<Participant> participantRoot1 = tupleQuery.from(Participant.class);
+                Join<Participant, Enrollment> joinParticipant = participantRoot1.join("enrollments", JoinType.LEFT);
+                tupleQuery.multiselect(participantRoot1, joinParticipant); // select p, e from Participant p left join p.enrollments e
+                em.createQuery(tupleQuery).getResultList().forEach(t -> System.out.println(t.get(0) + " " + t.get(1)));
             });
         } finally {
             em.close();
