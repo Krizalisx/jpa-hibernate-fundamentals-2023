@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.NamedAttributeNode;
+import jakarta.persistence.NamedEntityGraph;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -27,6 +29,11 @@ import lombok.ToString.Exclude;
 @ToString
 @NamedQuery(name = "getAll", query = "select p from Participant p")
 @NamedQuery(name = "getByName", query = "select p from Participant p where p.name = :name")
+@NamedEntityGraph(
+    name = "Participant.enrollments",
+    attributeNodes = {
+        @NamedAttributeNode("enrollments")
+    })
 public class Participant {
 
     @Id
